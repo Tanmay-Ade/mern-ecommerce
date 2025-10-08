@@ -104,6 +104,11 @@ app.use((err, req, res, next) => {
   });
 });
 
+// Health check / base route
+app.get("/", (req, res) => {
+  res.send("API is working! 🚀");
+});
+
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
 // This is server/server.js
