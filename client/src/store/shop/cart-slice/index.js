@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import API_BASE_URL from '@/config/api';
 import axios from "axios";
 
 const initialState = {
@@ -10,7 +11,7 @@ const initialState = {
 };
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api/shop/cart",
+  baseURL: `${API_BASE_URL}/api/shop/cart`,
   withCredentials: true,
 });
 
@@ -29,7 +30,7 @@ axiosInstance.interceptors.request.use(
 
 const updateProductStockLevel = async (productId) => {
   const response = await axios.get(
-    `http://localhost:5000/api/shop/products/get/${productId}`
+    `${API_BASE_URL}/api/shop/products/get/${productId}`
   );
   return response.data.data.stock;
 };
@@ -43,7 +44,7 @@ export const updateCartItemQty = createAsyncThunk(
     try {
       // Check latest stock
       const stockResponse = await axios.get(
-        `http://localhost:5000/api/shop/products/get/${productId}`
+        `${API_BASE_URL}/api/shop/products/get/${productId}`
       );
       const availableStock = stockResponse.data.data.stock;
       console.log('availableStock', availableStock);
@@ -74,7 +75,7 @@ export const addToCart = createAsyncThunk(
     try {
       // First check stock availability
       const stockResponse = await axios.get(
-        `http://localhost:5000/api/shop/products/get/${productId}`
+        `${API_BASE_URL}/api/shop/products/get/${productId}`
       );
       const availableStock = stockResponse.data.data.stock;
       console.log("Bhakkkkkk Bhakkkkkk", availableStock);
@@ -139,7 +140,7 @@ export const updateProductStock = createAsyncThunk(
   async ({ productId, quantity }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/shop/products/update-stock`,
+        `${API_BASE_URL}/api/shop/products/update-stock`,
         {
           items: [{ productId, quantity }],
         }

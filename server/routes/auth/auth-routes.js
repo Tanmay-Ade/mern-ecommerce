@@ -1,7 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-const stripe = require('../../config/stripe');
+const stripe = require("../../config/stripe");
 
 const {
   registerUser,
@@ -35,21 +35,21 @@ router.post("/create-payment-intent", authMiddleware, async (req, res) => {
     const { amount, orderId } = req.body;
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100),
-      currency: 'inr',
+      currency: "inr",
       metadata: {
         userId: req.user.id,
-        orderId: orderId
-      }
+        orderId: orderId,
+      },
     });
     res.json({
       success: true,
-      clientSecret: paymentIntent.client_secret
+      clientSecret: paymentIntent.client_secret,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: 'Payment intent creation failed',
-      error: error.message
+      message: "Payment intent creation failed",
+      error: error.message,
     });
   }
 });
@@ -75,7 +75,7 @@ router.get(
   "/google/callback",
   (req, res, next) => {
     passport.authenticate("google", {
-      failureRedirect: "http://localhost:5173/auth/login",
+      failureRedirect: `${process.env.FRONTEND_URL}/auth/login`,
       session: false,
     })(req, res, next);
   },
@@ -111,14 +111,14 @@ router.get(
       });
 
       res.redirect(
-        `http://localhost:5173/auth/google/callback?data=${encodeURIComponent(
-          JSON.stringify(data)
-        )}`
+        `${
+          process.env.FRONTEND_URL
+        }/auth/google/callback?data=${encodeURIComponent(JSON.stringify(data))}`
       );
     } catch (error) {
       console.error("Google callback error:", error);
       res.redirect(
-        `http://localhost:5173/auth/login?error=${encodeURIComponent(
+        `${process.env.FRONTEND_URL}/auth/login?error=${encodeURIComponent(
           "Authentication failed"
         )}`
       );

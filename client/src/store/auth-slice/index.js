@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import API_BASE_URL from '@/config/api'
 import axios from "axios";
 
 const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -9,7 +10,7 @@ export const registerUser = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        `${API_BASE_URL}/api/auth/register`,
         formData,
         { withCredentials: true }
       );
@@ -31,7 +32,7 @@ export const loginUser = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${API_BASE_URL}/api/auth/login`,
         formData,
         { withCredentials: true }
       );
@@ -53,7 +54,7 @@ export const loginWithGoogle = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/auth/google/callback",
+        `${API_BASE_URL}/api/auth/google/callback`,
         { withCredentials: true }
       );
       
@@ -74,7 +75,7 @@ export const logoutUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/logout",
+        `${API_BASE_URL}/api/auth/logout`,
         {},
         { withCredentials: true }
       );
@@ -103,7 +104,7 @@ export const checkAuthStatus = createAsyncThunk(
       }
       
       const response = await axios.get(
-        "http://localhost:5000/api/auth/check-auth",
+        `${API_BASE_URL}/api/auth/check-auth`,
         {
           withCredentials: true,
           headers: { Authorization: `Bearer ${token}` }

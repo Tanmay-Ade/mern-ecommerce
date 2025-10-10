@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import API_BASE_URL from '@/config/api';
 import axios from "axios";
 
 const initialState = {
@@ -10,7 +11,7 @@ const initialState = {
 };
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api/shop",
+  baseURL: `${API_BASE_URL}/api/shop`,
   headers: {
     "Content-Type": "application/json",
   },

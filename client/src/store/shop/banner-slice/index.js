@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import API_BASE_URL from '@/config/api';
 import axios from "axios";
 
 export const fetchBanners = createAsyncThunk(
   "shop/banners/fetch",
   async () => {
     const result = await axios.get(
-      "http://localhost:5000/api/admin/banners/get"
+      `${API_BASE_URL}/api/admin/banners/get`
     );
     return result?.data;
   }

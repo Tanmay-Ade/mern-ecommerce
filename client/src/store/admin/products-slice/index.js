@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import API_BASE_URL from '@/config/api';
 import axios from "axios";
 
 const initialState = {
@@ -13,7 +14,7 @@ export const addNewProduct = createAsyncThunk(
     console.log("Data in redux action:", formData);
 
     const result = await axios.post(
-      "http://localhost:5000/api/admin/products/add",
+      `${API_BASE_URL}/api/admin/products/add`,
       formData,
       {
         headers: {
@@ -30,7 +31,7 @@ export const fetchAllProducts = createAsyncThunk(
   "/products/fetchallproducts",
   async () => {
     const result = await axios.get(
-      "http://localhost:5000/api/admin/products/get"
+      `${API_BASE_URL}/api/admin/products/get`
     );
 
     return result?.data;
@@ -41,7 +42,7 @@ export const editProduct = createAsyncThunk(
   "/products/editproduct",
   async ({ id, formData }) => {
     const result = await axios.put(
-      `http://localhost:5000/api/admin/products/edit/${id}`,
+      `${API_BASE_URL}/api/admin/products/edit/${id}`,
       formData,
       {
         headers: {
@@ -57,7 +58,7 @@ export const deleteProduct = createAsyncThunk(
   "/products/deleteproduct",
   async (id) => {
     const result = await axios.delete(
-      `http://localhost:5000/api/admin/products/delete/${id}`
+      `${API_BASE_URL}/api/admin/products/delete/${id}`
     );
     return result?.data;
   }

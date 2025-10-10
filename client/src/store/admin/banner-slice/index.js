@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import API_BASE_URL from '@/config/api';
 import axios from "axios";
 
 const initialState = {
@@ -10,7 +11,7 @@ export const addNewBanner = createAsyncThunk(
   "/banners/addnewbanner",
   async (formData) => {
     const result = await axios.post(
-      "http://localhost:5000/api/admin/banners/add",
+      `${API_BASE_URL}/api/admin/banners/add`,
       formData
     );
     return result?.data;
@@ -21,7 +22,7 @@ export const fetchAllBanners = createAsyncThunk(
   "/banners/fetchallbanners",
   async () => {
     const result = await axios.get(
-      "http://localhost:5000/api/admin/banners/get"
+      `${API_BASE_URL}/api/admin/banners/get`
     );
     return result?.data;
   }
@@ -31,7 +32,7 @@ export const deleteBanner = createAsyncThunk(
   "/banners/deletebanner",
   async (id) => {
     const result = await axios.delete(
-      `http://localhost:5000/api/admin/banners/delete/${id}`
+      `${API_BASE_URL}/api/admin/banners/delete/${id}`
     );
     return result?.data;
   }

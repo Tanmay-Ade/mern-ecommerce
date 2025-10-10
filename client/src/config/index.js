@@ -41,8 +41,8 @@ export const loginFormControls = [
 
 // Google OAuth Configuration
 export const authConfig = {
-  googleAuthUrl: "http://localhost:5000/api/auth/google",
-  googleCallbackUrl: "http://localhost:5000/api/auth/google/callback",
+  googleAuthUrl: `${import.meta.env.VITE_API_BASE_URL}/api/auth/google`,
+  googleCallbackUrl: `${import.meta.env.VITE_API_BASE_URL}/api/auth/google/callback`,
   loginRedirect: "/auth/login",
   adminDashboard: "/admin/dashboard",
   userDashboard: "/shop/home",

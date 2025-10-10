@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import API_BASE_URL from '@/config/api';
 import axios from "axios";
 
 const initialState = {
@@ -22,7 +23,7 @@ export const fetchUserOrders = createAsyncThunk(
   "orders/fetchUserOrders",
   async (userId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/orders/user/${userId}`,
+      `${API_BASE_URL}/api/shop/orders/user/${userId}`,
       getAuthHeader()
     );
     return response.data;
@@ -33,7 +34,7 @@ export const getOrderDetails = createAsyncThunk(
   "orders/getOrderDetails",
   async (orderId) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/orders/${orderId}`,
+      `${API_BASE_URL}/api/shop/orders/${orderId}`,
       getAuthHeader()
     );
     return response.data;
@@ -45,7 +46,7 @@ export const updateOrderStatus = createAsyncThunk(
   async ({ orderId, status, note }) => {
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/admin/orders/update-status/${orderId}`,
+        `${API_BASE_URL}/api/admin/orders/update-status/${orderId}`,
         { 
           status: status.toLowerCase(),
           note 
@@ -54,7 +55,7 @@ export const updateOrderStatus = createAsyncThunk(
       );
       
       const updatedOrders = await axios.get(
-        "http://localhost:5000/api/admin/orders/all",
+        `${API_BASE_URL}/api/admin/orders/all`,
         getAuthHeader()
       );
       
@@ -72,7 +73,7 @@ export const updateOrderStatus = createAsyncThunk(
 
 export const fetchAllOrders = createAsyncThunk("orders/fetchAll", async () => {
   const response = await axios.get(
-    "http://localhost:5000/api/admin/orders/all",
+    `${API_BASE_URL}/api/admin/orders/all`,
     getAuthHeader()
   );
   return response.data;
