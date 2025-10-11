@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
+import API_BASE_URL from "@/config/api";
 
 const ShoppingProductTile = ({
   product,
@@ -19,7 +20,7 @@ const ShoppingProductTile = ({
   const fetchLatestStock = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/shop/products/get/${product?._id}`
+        `${API_BASE_URL}/api/shop/products/get/${product?._id}`
       );
       const latestStock = response.data.data.stock;
 

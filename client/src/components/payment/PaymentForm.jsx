@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "../../store/shop/cart-slice";
+import API_BASE_URL from '@/config/api';
 
 const PaymentForm = ({ amount }) => {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const PaymentForm = ({ amount }) => {
     }
 
     const response = await fetch(
-      "http://localhost:5000/api/shop/orders/create",
+      `${API_BASE_URL}/api/shop/orders/create`,
       {
         method: "POST",
         headers: {
@@ -52,7 +53,7 @@ const PaymentForm = ({ amount }) => {
 
   const createPaymentIntent = async (amount, orderId) => {
     const response = await fetch(
-      "http://localhost:5000/api/payment/create-payment-intent",
+      `${API_BASE_URL}/api/payment/create-payment-intent`,
       {
         method: "POST",
         headers: {
@@ -75,7 +76,7 @@ const PaymentForm = ({ amount }) => {
     try {
       console.log('Clearing cart for user:', userId);
       
-      const response = await fetch(`http://localhost:5000/api/shop/cart/clear/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/shop/cart/clear/${userId}`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",

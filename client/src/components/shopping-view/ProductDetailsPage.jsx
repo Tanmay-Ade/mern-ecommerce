@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { setProductDetails } from "@/store/shop/product-slice";
 import ReviewForm from "../shopping-view/ReviewForm";
 import ReviewList from "../shopping-view/ReviewList";
+import API_BASE_URL from "@/config/api";
 
 const ProductDetailsPage = ({
   open,
@@ -23,14 +24,14 @@ const ProductDetailsPage = ({
   const [stockStatus, setStockStatus] = useState({
     message: "",
     color: "",
-    isAvailable: true
+    isAvailable: true,
   });
-  
+
   const allImages = [
     productDetails?.image,
     ...(productDetails?.additionalImages || []),
   ];
-  
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { toast } = useToast();
@@ -40,36 +41,36 @@ const ProductDetailsPage = ({
       setStockStatus({
         message: "Out of Stock",
         color: "bg-red-500",
-        isAvailable: false
+        isAvailable: false,
       });
     } else if (productDetails?.stock <= 10) {
       setStockStatus({
         message: `Only ${productDetails.stock} left in stock!`,
         color: "bg-amber-500",
-        isAvailable: true
+        isAvailable: true,
       });
     } else {
       setStockStatus({
         message: "In Stock",
         color: "bg-green-500",
-        isAvailable: true
+        isAvailable: true,
       });
     }
   }, [productDetails?.stock]);
 
   const handleReviewSubmit = async (reviewData) => {
     try {
-      const response = await fetch("http://localhost:5000/api/shop/reviews/create", {
+      const response = await fetch(`${API_BASE_URL}/api/shop/reviews/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${localStorage.getItem('token')}`
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         credentials: "include",
         body: JSON.stringify({
           ...reviewData,
-          userId: user.id
-        })
+          userId: user.id,
+        }),
       });
 
       const data = await response.json();
@@ -82,17 +83,17 @@ const ProductDetailsPage = ({
     } catch (error) {
       toast({
         title: "Error submitting review",
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
 
   const fetchReviews = useCallback(async () => {
     if (!productDetails?._id) return;
-    
+
     try {
       const response = await fetch(
-        `http://localhost:5000/api/shop/reviews/product/${productDetails._id}`
+        `${API_BASE_URL}/api/shop/reviews/product/${productDetails._id}`
       );
       const data = await response.json();
       if (data.success) {
@@ -101,7 +102,7 @@ const ProductDetailsPage = ({
     } catch (error) {
       toast({
         title: "Error fetching reviews",
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   }, [productDetails?._id]);
@@ -115,7 +116,10 @@ const ProductDetailsPage = ({
   };
 
   const handleQuantityChange = (value) => {
-    const newQuantity = Math.max(1, Math.min(value, productDetails?.stock || 1));
+    const newQuantity = Math.max(
+      1,
+      Math.min(value, productDetails?.stock || 1)
+    );
     setQuantity(newQuantity);
   };
 
@@ -123,7 +127,7 @@ const ProductDetailsPage = ({
     if (!stockStatus.isAvailable) {
       toast({
         title: "Product is out of stock",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -132,7 +136,7 @@ const ProductDetailsPage = ({
       toast({
         title: "Not enough stock",
         description: `Only ${productDetails.stock} items available`,
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -197,7 +201,13 @@ const ProductDetailsPage = ({
             </p>
           </div>
           <div className="flex items-center justify-between">
-            <p className={`text-2xl font-bold ${productDetails?.salePrice > 0 ? "line-through text-muted-foreground" : ""}`}>
+            <p
+              className={`text-2xl font-bold ${
+                productDetails?.salePrice > 0
+                  ? "line-through text-muted-foreground"
+                  : ""
+              }`}
+            >
               ${productDetails?.price}
             </p>
             {productDetails?.salePrice > 0 && (
@@ -206,7 +216,7 @@ const ProductDetailsPage = ({
               </p>
             )}
           </div>
-          
+
           <Badge className={`mt-4 ${stockStatus.color}`}>
             {stockStatus.message}
           </Badge>

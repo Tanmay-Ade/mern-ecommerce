@@ -1,4 +1,5 @@
 import React from 'react';
+import API_BASE_URL from '@/config/api';
 
 const TestEmail = () => {
   const handleTestEmail = async () => {
@@ -6,7 +7,7 @@ const TestEmail = () => {
       const token = localStorage.getItem('token');
       console.log('Token being sent:', token); // Add this to verify token
 
-      const response = await fetch('http://localhost:5000/api/shop/orders/test-email', {
+      const response = await fetch(`${API_BASE_URL}/api/shop/orders/test-email`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

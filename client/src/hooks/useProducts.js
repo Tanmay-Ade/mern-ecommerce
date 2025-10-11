@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
+import API_BASE_URL from '@/config/api';
 
 const fetchProducts = async (filters, sort) => {
   // Transform filters to match backend expectations
@@ -12,7 +13,7 @@ const fetchProducts = async (filters, sort) => {
   if (filters.category?.length) queryParams.category = filters.category.join(',')
   if (filters.jewellery?.length) queryParams.jewellery = filters.jewellery.join(',')
 
-  const response = await axios.get('http://localhost:5000/api/shop/products/get', {
+  const response = await axios.get(`${API_BASE_URL}/api/shop/products/get`, {
     params: queryParams,
     withCredentials: true
   })

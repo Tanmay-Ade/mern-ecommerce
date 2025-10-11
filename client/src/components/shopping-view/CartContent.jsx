@@ -9,6 +9,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import axios from 'axios';
+import API_BASE_URL from '@/config/api';
 
 const CartContent = ({ cartItems }) => {
   const [currentStock, setCurrentStock] = useState(0);
@@ -19,7 +20,7 @@ const CartContent = ({ cartItems }) => {
   async function handleUpdateQuantity(getCartItem, typeOfAction) {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/shop/products/get/${getCartItem.productId}`
+        `${API_BASE_URL}/api/shop/products/get/${getCartItem.productId}`
       );
       const availableStock = response.data.data.stock;
       

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import CommonForm from "@/components/common/Form";
+import API_BASE_URL from '@/config/api';
 
 const forgotPasswordControls = [
   {
@@ -27,7 +28,7 @@ const ForgotPassword = () => {
     event.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/auth/forgot-password", {
+      const response = await fetch(`${API_BASE_URL}/api/auth/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

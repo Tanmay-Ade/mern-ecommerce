@@ -5,6 +5,7 @@ import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
+import API_BASE_URL from '@/config/api';
 
 const MultipleImageUpload = ({
   imageFiles,
@@ -44,7 +45,7 @@ const MultipleImageUpload = ({
     data.append("my_files", file);  // Change "my_file" to "my_files"
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/products/upload-multipleimages",
+        `${API_BASE_URL}/api/admin/products/upload-multipleimages`,
         data
       );
       if (response?.data?.success) {
